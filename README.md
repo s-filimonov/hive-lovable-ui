@@ -57,6 +57,28 @@ Use existing shadcn components wherever possible, especially:
 - Sheet
 - Separator
 
+## Design tokens
+
+### Core colors
+- Background: #FFFFFF
+- Surface muted: #F5F6F6
+- Hover/accent surface: #EAECED
+- Text primary: #3E4042
+- Text strong: #161617
+- Text secondary: #64676A
+- Border: #D6D9DB
+- Primary action: #2379DD
+- Danger: #DB2C1D
+
+### Radius
+- Default radius: 8px
+- Small radius: 4px
+- Pill/full radius: 200px
+
+### Spacing
+- 4, 8, 16, 24, 32, 40, 48, 56
+- Prefer 16px card gaps and 24px page sections
+
 ## How to use with Lovable
 
 Start from this repository and ask Lovable to extend the existing UI system.
