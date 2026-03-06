@@ -8,7 +8,11 @@ export default function Home() {
       <AppSidebar />
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <AppHeader />
+      <AppHeader
+  title="Dashboard"
+  description="Shared starter layout for Lovable-generated internal apps"
+   actionLabel="Create report"
+    />
 
         <main className="flex-1 p-6">
           <div className="grid gap-4 md:grid-cols-3">
