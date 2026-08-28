@@ -1,0 +1,194 @@
+/* ==========================================================================
+   Hive × Lovable — global stylesheet
+   --------------------------------------------------------------------------
+   This is a STANDARD shadcn/ui + Tailwind stylesheet (Lovable-native).
+   The only Hive-specific thing here is the TOKEN VALUES.
+
+   Layer 1  Hive design tokens  — ported verbatim from the Claude Design
+            export (`colors_and_type.css`), the canonical source of truth.
+   Layer 2  shadcn bridge        — maps shadcn/ui's token contract
+            (--background, --primary, --border, …) onto Hive tokens, so every
+            native shadcn component renders in Hive styling automatically.
+   Layer 3  Tailwind base/components/utilities.
+
+   Font note: the real Hive face (Noi Variable Flex) is proprietary and
+   NOT redistributable, so this shared/remixable seed ships GEIST only
+   (SIL OFL, ~95% identical metrics). To re-enable Noi inside a licensed
+   internal Hive deployment, uncomment the @font-face block below and put
+   "Noi Variable Flex" first in --font-sans / --font-display.
+   ========================================================================== */
+
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@300..700&display=swap");
+
+/*
+@font-face {
+  font-family: "Noi Variable Flex";
+  src: url("/fonts/NoiVariableFlexVF.ttf") format("truetype-variations");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+*/
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================================
+   LAYER 1 — HIVE DESIGN TOKENS  (canonical values, do not edit by hand)
+   ========================================================================== */
+:root {
+  /* ---- Decorative color families (25 → 700) ---- */
+  --cherry-25: #FFF8F6;  --cherry-50: #FFEDEA;  --cherry-200: #FFC9C0;  --cherry-400: #FF9B8E;  --cherry-600: #A83A27;  --cherry-700: #741209;
+  --sun-25: #FFF9EE;     --sun-50: #FFF0D7;     --sun-200: #FFD59A;     --sun-400: #F9A533;     --sun-600: #E27E04;     --sun-700: #B45F00;
+  --forest-25: #F2FCF2;  --forest-50: #DFF7E1;  --forest-200: #8DD49A;  --forest-400: #2D9E44;  --forest-600: #085D0D;  --forest-700: #064B0A;
+  --blue-25: #F0F8FF;    --blue-50: #E5F0FF;    --blue-200: #A7C9FF;    --blue-400: #5895E5;    --blue-600: #2270CF;    --blue-700: #2855A3;
+  --ultramarine-25: #F4F6FB; --ultramarine-50: #ECF0F9; --ultramarine-200: #AAB8E2; --ultramarine-400: #6777C7; --ultramarine-600: #090C9B; --ultramarine-700: #0F068A;
+  --fjord-25: #F6F8F9;   --fjord-50: #EDF1F3;   --fjord-200: #728A9D;   --fjord-400: #5A728A;   --fjord-600: #415A77;   --fjord-700: #384469;
+  --teal-25: #F7FEFC;    --teal-50: #E0FCF5;    --teal-200: #A4EDE0;    --teal-400: #19BBA1;    --teal-600: #197368;    --teal-700: #126B60;
+  --volt-25: #F9FDE7;    --volt-50: #F0F9C4;    --volt-200: #E4F49D;    --volt-400: #D0EA58;    --volt-600: #D3EB42;    --volt-700: #B5CD36;
+  --banana-25: #FFFEFA;  --banana-50: #FFFDF4;  --banana-200: #FFF9DE;  --banana-400: #FFF5C1;  --banana-600: #FFEFA0;  --banana-700: #CCBF80;
+  --sunrise-25: #FFFEFA; --sunrise-50: #FFFDF4; --sunrise-200: #FFF7CC; --sunrise-400: #FFF099; --sunrise-600: #FFDF39; --sunrise-700: #C7AE2E;
+  --papaya-25: #FFF0EA;  --papaya-50: #FFE3D3;  --papaya-200: #FFC0A6;  --papaya-400: #FF8D65;  --papaya-600: #FF7243;  --papaya-700: #F2683B;
+  --lipstick-25: #FFF6FC;--lipstick-50: #FFEAF8;--lipstick-200: #FFC2E8;--lipstick-400: #FF8CD4;--lipstick-600: #FF5CC8;--lipstick-700: #D245A8;
+  --plum-25: #F9F3F7;    --plum-50: #F8E9F4;    --plum-200: #D4A9C6;    --plum-400: #B05E96;    --plum-600: #85085D;    --plum-700: #6A064A;
+  --sand-25: #FBFAF7;    --sand-50: #F9F7F1;    --sand-200: #EFECE3;    --sand-400: #EADFCF;    --sand-600: #E5DFCD;    --sand-700: #BFB7A3;
+
+  /* ---- Neutrals (stone/sand scale — Hive rebrand light) ---- */
+  --neutral-0: #FFFFFF;   --neutral-25: #FBFAF8;  --neutral-50: #F8F7F4;  --neutral-100: #F5F4F0;
+  --neutral-200: #E8E6E0; --neutral-300: #CEC9C4; --neutral-500: #9A9792; --neutral-700: #6E6B67;
+  --neutral-900: #1B1A18; --neutral-1200: #000000;
+
+  /* ---- Brand aliases ---- */
+  --brand-terracotta: var(--cherry-600);
+  --brand-terracotta-soft: #BA382A;
+  --brand-gold: #FACF4A;
+  --brand-ink: #161617;
+
+  /* ---- Semantic background (role × state) ---- */
+  --bg-primary-default: var(--neutral-0);    --bg-primary-hover: var(--neutral-50);    --bg-primary-disabled: var(--neutral-50);
+  --bg-secondary-default: var(--neutral-50);  --bg-secondary-hover: var(--neutral-100);  --bg-secondary-disabled: var(--neutral-100);
+  --bg-tertiary-default: var(--sand-25);      --bg-tertiary-hover: var(--sand-50);       --bg-tertiary-disabled: var(--sand-50);
+  --bg-inverse-default: var(--neutral-1200);  --bg-inverse-hover: var(--neutral-900);    --bg-inverse-disabled: var(--neutral-700);
+  --bg-danger-default: var(--cherry-50);      --bg-danger-hover: var(--cherry-200);      --bg-danger-disabled: var(--cherry-25);
+  --bg-danger-inverse-default: var(--cherry-600);  --bg-danger-inverse-hover: var(--cherry-700);  --bg-danger-inverse-disabled: var(--cherry-400);
+  --bg-info-default: var(--blue-50);          --bg-info-hover: var(--blue-200);          --bg-info-disabled: var(--blue-25);
+  --bg-info-inverse-default: var(--blue-600);      --bg-info-inverse-hover: var(--blue-700);      --bg-info-inverse-disabled: var(--blue-400);
+  --bg-warning-default: var(--sun-50);        --bg-warning-hover: var(--sun-200);        --bg-warning-disabled: var(--sun-25);
+  --bg-warning-inverse-default: var(--sun-600);    --bg-warning-inverse-hover: var(--sun-700);    --bg-warning-inverse-disabled: var(--sun-400);
+  --bg-success-default: var(--forest-50);     --bg-success-hover: var(--forest-200);     --bg-success-disabled: var(--forest-25);
+  --bg-success-inverse-default: var(--forest-600); --bg-success-inverse-hover: var(--forest-700); --bg-success-inverse-disabled: var(--forest-400);
+
+  /* ---- Border ---- */
+  --border-default: var(--neutral-200);       --border-default-hover: var(--neutral-300);  --border-default-disabled: var(--neutral-100);
+  --border-inverse-default: var(--neutral-1200);
+  --border-danger-default: var(--cherry-600); --border-info-default: var(--blue-600);
+  --border-warning-default: var(--sun-600);   --border-success-default: var(--forest-600);
+  --border-focus: var(--brand-ink);
+
+  /* ---- Text ---- */
+  --text-title-default: var(--neutral-900);     --text-title-hover: var(--neutral-1200);   --text-title-disabled: var(--neutral-700);
+  --text-primary-default: var(--neutral-900);   --text-primary-hover: var(--neutral-1200); --text-primary-disabled: var(--neutral-700);
+  --text-secondary-default: var(--neutral-700); --text-secondary-hover: var(--neutral-900);--text-secondary-disabled: var(--neutral-500);
+  --text-tertiary-default: var(--neutral-500);  --text-tertiary-hover: var(--neutral-700); --text-tertiary-disabled: var(--neutral-300);
+  --text-inverse-default: var(--neutral-0);
+  --text-link-default: var(--blue-600);         --text-link-hover: var(--blue-700);
+  --text-danger-default: var(--cherry-600);     --text-info-default: var(--blue-600);
+  --text-success-default: var(--forest-600);    --text-warning-default: var(--sun-600);
+
+  /* ---- Decorative role tokens (categorical chips/tags) ---- */
+  --bg-decorative-cherry: var(--cherry-50);       --text-decorative-cherry: var(--cherry-700);
+  --bg-decorative-sun: var(--sun-50);             --text-decorative-sun: var(--sun-700);
+  --bg-decorative-forest: var(--forest-50);       --text-decorative-forest: var(--forest-700);
+  --bg-decorative-blue: var(--blue-50);           --text-decorative-blue: var(--blue-700);
+  --bg-decorative-fjord: var(--fjord-50);         --text-decorative-fjord: var(--fjord-700);
+  --bg-decorative-teal: var(--teal-50);           --text-decorative-teal: var(--teal-700);
+  --bg-decorative-plum: var(--plum-50);           --text-decorative-plum: var(--plum-700);
+  --bg-decorative-sand: var(--sand-50);           --text-decorative-sand: var(--sand-700);
+
+  /* ---- Shadow / elevation ---- */
+  --shadow-xs: 0 1px 2px 0 rgba(62,64,66,.04);
+  --shadow-sm: 0 1px 3px 0 rgba(62,64,66,.08), 0 1px 2px 0 rgba(62,64,66,.04);
+  --shadow-md: 0 4px 6px -1px rgba(62,64,66,.08), 0 2px 4px -1px rgba(62,64,66,.04);
+  --shadow-lg: 0 12px 16px -4px rgba(62,64,66,.08), 0 4px 6px -2px rgba(62,64,66,.04);
+  --shadow-xl: 0 20px 24px -4px rgba(62,64,66,.08), 0 8px 8px -4px rgba(62,64,66,.04);
+
+  /* ---- Radius (none / small / medium=default / large=pill) ---- */
+  --radius-small: 6px;  --radius-medium: 8px;  --radius-large: 200px;
+
+  /* ---- Spacing ---- */
+  --space-xxs: 4px; --space-xs: 8px; --space-sm: 16px; --space-md: 24px;
+  --space-lg: 32px; --space-xl: 40px; --space-2xl: 48px; --space-3xl: 56px;
+
+  /* ---- Type ---- */
+  --font-sans: "Geist", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
+}
+
+/* ==========================================================================
+   LAYER 2 — SHADCN BRIDGE
+   shadcn/ui token contract → Hive tokens. Single source of truth = Layer 1.
+   tailwind.config maps each utility (bg-background, text-primary, …) to these.
+   ========================================================================== */
+:root {
+  --background: var(--bg-tertiary-default);          /* page bg (#FBFAF7) */
+  --foreground: var(--text-primary-default);
+
+  --card: var(--bg-primary-default);                 /* white surfaces */
+  --card-foreground: var(--text-primary-default);
+  --popover: var(--bg-primary-default);
+  --popover-foreground: var(--text-primary-default);
+
+  --primary: var(--bg-inverse-default);              /* primary CTA = black */
+  --primary-foreground: var(--text-inverse-default);
+
+  --secondary: var(--bg-secondary-default);          /* muted surface */
+  --secondary-foreground: var(--text-title-default);
+
+  --muted: var(--bg-secondary-default);
+  --muted-foreground: var(--text-secondary-default);
+
+  --accent: var(--bg-secondary-hover);               /* hover/accent fill */
+  --accent-foreground: var(--text-title-default);
+
+  --destructive: var(--bg-danger-inverse-default);   /* terracotta */
+  --destructive-foreground: var(--text-inverse-default);
+
+  --border: var(--border-default);
+  --input: var(--border-default);
+  --ring: var(--border-focus);
+
+  --radius: 0.5rem;                                  /* 8px = Hive medium */
+
+  /* Data-viz — Hive decorative families */
+  --chart-1: var(--fjord-600);
+  --chart-2: var(--teal-400);
+  --chart-3: var(--sun-400);
+  --chart-4: var(--plum-400);
+  --chart-5: var(--forest-400);
+
+  /* Sidebar (shadcn sidebar component) */
+  --sidebar-background: var(--bg-primary-default);
+  --sidebar-foreground: var(--text-secondary-default);
+  --sidebar-primary: var(--bg-inverse-default);
+  --sidebar-primary-foreground: var(--text-inverse-default);
+  --sidebar-accent: var(--bg-secondary-default);
+  --sidebar-accent-foreground: var(--text-title-default);
+  --sidebar-border: var(--border-default);
+  --sidebar-ring: var(--border-focus);
+}
+
+/* ==========================================================================
+   LAYER 3 — base
+   ========================================================================== */
+@layer base {
+  * { @apply border-border; }
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  /* Hive uses subtle borders over heavy shadows; sentence-case copy. */
+}
